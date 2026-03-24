@@ -1,0 +1,31 @@
+@import '../../main.scss';
+
+.insurance-checkbox {
+  color: orange;
+  font-weight: bold;
+  .ant-checkbox-checked .ant-checkbox-inner {
+    background-color: orange !important;
+    border-color: orange !important;
+  }
+}
+
+.estimated-fee{
+    color: $text-quaternary;
+    font-size: 16px;
+    margin-bottom: 10px;
+    font-weight: 500;
+    display: flex;
+    justify-content: space-between;
+}
+
+.insurance-form-container{
+  padding: 12px !important;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border: 1px solid $border;
+  h2{
+    margin-top: 0;
+    margin-bottom: 12px;
+    color: $text-quaternary;
+  }
+}

@@ -1,0 +1,333 @@
+.domestic-waterway-quote {
+    height: 100%;
+    width: 100%;
+
+    .content-wrapper {
+        display: flex;
+        gap: 16px;
+        height: calc(100% - 80px);
+
+        .left-column {
+            width: 65%;
+            display: flex;
+            flex-direction: column;
+            border-radius: 12px;
+            padding: 12px;
+            overflow-y: auto;
+
+            .card-list {
+                flex: 1;
+                overflow-y: auto;
+                display: flex;
+                flex-direction: column;
+                gap: 6px;
+                padding-right: 4px;
+
+                .column-header {
+                    font-size: 15px;
+                    font-weight: 500;
+                    color: #0d5b79;
+                    margin-bottom: 12px;
+                    padding: 0 4px;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+
+                    .header-title {
+                        display: flex;
+                        align-items: center;
+                        gap: 8px;
+
+                        .list-icon {
+                            font-size: 20px;
+                            color: #26b2a5;
+                        }
+                    }
+
+                    .subtitle {
+                        font-size: 13px;
+                        color: #666;
+                        font-weight: normal;
+                    }
+                }
+            }
+
+            .quote-card {
+                border-radius: 8px;
+                padding: 0;
+                cursor: pointer;
+                transition: all 0.2s ease;
+                border-left: 2px solid transparent;
+                background: white !important;
+
+                .ant-card-body {
+                    padding: 10px 12px !important;
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    width: 100%;
+                }
+
+                .service-name {
+                    font-size: 14px;
+                    color: #333;
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+                    flex: 1;
+
+                    &::before {
+                        content: "";
+                        display: block;
+                        width: 6px;
+                        height: 6px;
+                        border-radius: 50%;
+                        background: rgba(13, 91, 121, 0.3);
+                    }
+                }
+
+                .service-actions {
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+
+                    .info-icon {
+                        font-size: 20px;
+                        color: #26b2a5;
+                        opacity: 0.8;
+                        cursor: pointer;
+                        transition: all 0.2s ease;
+
+                        &:hover {
+                            opacity: 1;
+                            transform: scale(1.1);
+                        }
+                    }
+                }
+
+                .service-cost {
+                    font-size: 14px;
+                    font-weight: 500;
+                    color: #ffa000;
+                    padding: 4px 10px;
+                    width: fit-content;
+                }
+
+                &:hover {
+                    background: white;
+                    transform: translateX(2px);
+
+                    .service-name::before {
+                        background: rgba(13, 91, 121, 0.6);
+                    }
+                }
+
+                &.selected {
+                    border-left: 2px solid #26b2a5;
+                    background: white;
+
+                    .service-name {
+                        color: #26b2a5;
+                        font-weight: 500;
+
+                        &::before {
+                            background: #26b2a5;
+                        }
+                    }
+                }
+            }
+        }
+
+        .right-column {
+            width: 35%;
+            display: flex;
+            flex-direction: column;
+            border-radius: 12px;
+            padding: 12px;
+            height: calc(100% - 80px);
+
+            .service-detail {
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+                max-height: 420px;
+                overflow-y: auto;
+                max-width: 100%;
+                overflow-x: hidden;
+
+                &__header {
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+                    color: #0d5b79;
+                    font-size: 15px;
+                    font-weight: 500;
+
+                    .info-icon {
+                        font-size: 20px;
+                        opacity: 0.7;
+                    }
+                }
+
+                &__content {
+                    margin-top: 12px;
+                    flex: 1;
+                    overflow-y: auto;
+
+                    .service-name {
+                        font-size: 15px;
+                        font-weight: 500;
+                        color: #0d5b79;
+                        padding: 12px;
+                        background: rgba(13, 91, 121, 0.05);
+                        border-radius: 6px;
+                        margin-bottom: 12px;
+                    }
+
+                    .info-section {
+                        margin-bottom: 16px;
+                        border-bottom: 1.5px solid #e0e7ef;
+                        padding: 5px;
+
+                        .info-row {
+                            display: flex;
+                            align-items: center;
+                            justify-content: space-between;
+                            gap: 10px;
+                            margin-bottom: 12px;
+                            padding: 4px 0;
+                            flex-wrap: wrap;
+
+                            .label {
+                                min-width: 90px;
+                                color: #26b2a5;
+                                font-size: 15px;
+                                font-weight: bold;
+                                text-align: left;
+                                white-space: nowrap;
+                            }
+
+                            .value,
+                            .ant-tag {
+                                color: #FFA000 !important;
+                                font-size: 15px;
+                                font-weight: bold;
+                                text-align: right;
+                                border-radius: 6px;
+                                border: none;
+                                box-shadow: none;
+                                word-break: break-word;
+                                white-space: normal;
+                                max-width: 60%;
+                                display: inline-block;
+                            }
+
+                            .time {
+                                color: #FFA000;
+                                font-weight: bold;
+                                word-break: break-word;
+                                white-space: normal;
+                                margin-right: 5px;
+                                align-items: center;
+                                justify-content: space-between;
+                                display: flex;
+                            }
+                        }
+                    }
+
+                    .cost-breakdown {
+                        display: flex;
+                        align-items: center;
+                        justify-content: space-between;
+                        gap: 10px;
+                        margin-bottom: 12px;
+                        padding: 5px;
+                        flex-wrap: wrap;
+
+                        h4 {
+                            font-size: 16px;
+                            color: #128DBA;
+                            margin-bottom: 10px;
+                            font-weight: 700;
+                        }
+
+                        .cost-item {
+                            display: flex;
+                            justify-content: space-between;
+                            align-items: center;
+                            width: 100%;
+                            margin-bottom: 6px;
+                            
+                            .cost-name {
+                                color: #26b2a5;
+                                font-weight: bold;
+                                text-align: left;
+                                white-space: nowrap;
+                                font-size: 14px;
+                            }
+
+                            .cost-value {
+                                color: #FFA000;
+                                font-weight: bold;
+                                text-align: right;
+                                margin-right: 5px;
+                                white-space: nowrap;
+                                font-size: 14px;
+                            }
+                        }
+                    }
+                }
+
+                &__placeholder {
+                    flex: 1;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    color: #666;
+                    font-size: 14px;
+                    text-align: center;
+                }
+            }
+        }
+    }
+
+    .grand-total {
+        position: absolute;
+        right: 12px;
+        bottom: 44px;
+        width: calc(35% - 14px);
+        background: linear-gradient(135deg, #26b2a5 0%, #0d5b79 100%);
+        padding: 16px 20px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-radius: 8px;
+        color: white;
+        box-shadow: 0 2px 8px rgba(13, 91, 121, 0.15);
+
+        .icon-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+        }
+
+        .text {
+            font-size: 18px;
+            font-weight: 500;
+        }
+
+        .amount {
+            font-size: 18px;
+            font-weight: 700;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 6px 16px;
+            border-radius: 6px;
+        }
+    }
+    
+}

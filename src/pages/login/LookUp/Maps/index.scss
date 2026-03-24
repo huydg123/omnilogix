@@ -1,0 +1,328 @@
+@import "../../../../main.scss";
+.info-popup {
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  width: 300px;
+  color: white;
+  font-size: 13px;
+  overflow: hidden;
+  background: $primary;
+  transform: translate(-40%, -110%);
+
+  .header-title {
+    padding: 12px;
+    background: $primary;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    
+    .title-wrapper {
+      span {
+        display: block;
+        
+        &:first-child {
+          font-size: 16px;
+          font-weight: 500;
+          margin-bottom: 4px;
+        }
+        
+        &.subtitle {
+          font-size: 13px;
+          opacity: 0.8;
+        }
+      }
+    }
+
+    .close-button {
+      padding: 4px;
+      height: 24px;
+      width: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(255, 255, 255, 0.8);
+      border: none;
+      
+      &:hover {
+        background: rgba(255, 255, 255, 0.1);
+        color: white;
+      }
+
+      .anticon {
+        font-size: 12px;
+      }
+    }
+  }
+
+  .progress-section {
+    padding: 8px 12px;
+    background: white;
+    
+    .route-container {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+
+      .location {
+        font-size: 13px;
+        font-weight: 500;
+        color: #333;
+        flex-shrink: 0;
+      }
+
+      .progress-container {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 4px;
+
+        .progress-percent {
+          font-size: 13px;
+          color: $green;
+          font-weight: 500;
+          padding: 2px;
+        }
+
+        .progress-bar {
+          width: 100%;
+          height: 6px;
+          background: #e0e0e0;
+          border-radius: 3px;
+          position: relative;
+
+          .progress-fill {
+            height: 100%;
+            background: #4caf50;
+            border-radius: 3px;
+            transition: width 0.3s ease;
+          }
+
+          .truck-icon-wrapper {
+            position: absolute;
+            top: -7px;
+            transform: translateX(-50%);
+            transition: left 0.3s ease;
+
+            .truck-icon {
+              width: 16px;
+              height: 16px;
+              transform: rotate(90deg);
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .info-content {
+    padding: 12px;
+    background: $primary;
+
+    .info-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      
+      &:last-child {
+        margin-bottom: 0;
+      }
+
+      .label {
+        color: rgba(255, 255, 255, 0.85);
+      }
+
+      .value {
+        color: white;
+        font-weight: 500;
+      }
+    }
+  }
+
+  .status-bar {
+    padding: 8px 12px;
+    background: $primary;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    .status-badge {
+      background: #4caf50;
+      color: white;
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 500;
+    }
+
+    .status-text {
+      color: rgba(255, 255, 255, 0.85);
+      font-size: 12px;
+    }
+  }
+}
+
+.vehicle-marker {
+  position: absolute;
+  transform-origin: center center;
+  cursor: pointer;
+  transition: transform 0.2s ease-out;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  &:hover {
+    transform: scale(1.1);
+  }
+}
+
+.route-polyline {
+  stroke: #0066cc;
+  stroke-opacity: 0.6;
+  stroke-width: 6;
+}
+
+.cardInfo {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 1000;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+
+  .cardInfo__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    border-bottom: 1px solid #f0f0f0;
+
+    .license-plate {
+      font-weight: bold;
+      font-size: 16px;
+      color: #1890ff;
+    }
+
+    .cardInfo__header-close {
+      border: none;
+      background: none;
+      padding: 4px 8px;
+      cursor: pointer;
+      color: #999;
+
+      &:hover {
+        color: #666;
+      }
+    }
+  }
+
+  .driver-info {
+    padding: 12px;
+
+    .info-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      font-size: 14px;
+
+      .label {
+        color: #666;
+      }
+
+      .value {
+        color: #333;
+        font-weight: 500;
+      }
+    }
+  }
+
+  .status-badge {
+    padding: 0 12px;
+    margin-bottom: 12px;
+    display: flex;
+    gap: 8px;
+
+    span {
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+    }
+
+    .online-status {
+      background-color: #e6f7ff;
+      color: #1890ff;
+    }
+
+    .movement-status {
+      background-color: #f6ffed;
+      color: #52c41a;
+    }
+  }
+
+  .progress-container {
+    padding: 12px;
+    
+    .progress-label {
+      display: block;
+      margin-bottom: 4px;
+      color: #666;
+      font-size: 14px;
+    }
+
+    .progress-bar {
+      position: relative;
+      margin: 20px 0;
+
+      .ant-progress {
+        .ant-progress-bg {
+          background-color: #1890ff;
+        }
+      }
+
+      .vehicle-indicator {
+        position: absolute;
+        top: -10px;
+        transform: translateX(-50%);
+        transition: left 0.3s ease;
+
+        img {
+          width: 24px;
+          height: 24px;
+        }
+      }
+    }
+  }
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  position: relative;
+  animation: modalFadeIn 0.3s ease;
+}
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
