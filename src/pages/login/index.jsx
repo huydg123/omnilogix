@@ -32,6 +32,7 @@ import { ImExit } from "react-icons/im";
 import { FaUserCircle } from "react-icons/fa";
 import ReCAPTCHA from "react-google-recaptcha";
 import CInputLabelPass from "../../components/uiBasic/CInputLabelPass";
+import { findLookUpMockData } from "../../mockData/lookUpMockData";
 
 function Login() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -41,6 +42,7 @@ function Login() {
   const [serviceSelected, setServiceSelected] = useState("");
   const [estimatedFee, setEstimatedFee] = useState(null);
   const [isLookUpMap, setIsLookUpMap] = useState(false);
+  const [lookUpResultData, setLookUpResultData] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [priceUnit, setPriceUnit] = useState(null);
 
@@ -80,6 +82,18 @@ function Login() {
   const handleCardClick = (item) => {
     setSelectedMenu(item);
     navigate(item.permision);
+  };
+
+  const handleLookUpSearch = ({ trackingCode, containerNo }) => {
+    const mockResult = findLookUpMockData({ trackingCode, containerNo });
+
+    if (mockResult) {
+      setLookUpResultData(mockResult);
+      return;
+    }
+
+    message.warning("Khong tim thay du lieu gia, hien thi du lieu mac dinh");
+    setLookUpResultData(null);
   };
 
   const recaptchaRef = useRef();
@@ -179,7 +193,7 @@ function Login() {
                     return Promise.resolve();
                   }
                   return Promise.reject(
-                    new Error("Mật khẩu xác nhận không khớp!")
+                    new Error("Mật khẩu xác nhận không khớp!"),
                   );
                 },
               }),
@@ -327,6 +341,7 @@ function Login() {
           <LookUp
             setIsLookUpMap={setIsLookUpMap}
             setIsPriceQuote={setIsPriceQuote}
+            onSearch={handleLookUpSearch}
           />
           <PriceQuote
             setIsPriceQuote={setIsPriceQuote}
@@ -461,7 +476,10 @@ function Login() {
             priceUnit={priceUnit}
           />
         ) : isLookUpMap ? (
-          <LookUpMapResult setIsLookUpMap={setIsLookUpMap} />
+          <LookUpMapResult
+            setIsLookUpMap={setIsLookUpMap}
+            mockData={lookUpResultData}
+          />
         ) : (
           <div className={`features ${!isLoggedIn ? "disabled" : ""}`}>
             <Row gutter={[16, 16]}>

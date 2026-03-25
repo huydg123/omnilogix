@@ -9,13 +9,15 @@ import CInputLabel from "../../../components/uiBasic/CInputLabel";
 import CdatePicker from "../../../components/uiBasic/CdatePicker";
 import CInputWithUnit from "../../../components/uiBasic/CInputWithUnit";
 import InsuranceModal from "../../../components/InsuranceModal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaCalendarAlt, FaRoute } from "react-icons/fa";
 import { BiPackage } from "react-icons/bi";
 import { HiOutlineInboxIn } from "react-icons/hi";
 import { TbRulerMeasure } from "react-icons/tb";
 import { LuWeight } from "react-icons/lu";
 import { LiaTruckLoadingSolid } from "react-icons/lia";
+import CAddressAutocomplete from "../../../components/uiBasic/CAddressAutocomplete";
+import { calculateDistanceInKmFromAddresses } from "../../../utils/distanceCalculator";
 
 PriceQuote.propTypes = {
   setIsPriceQuote: PropTypes.func.isRequired,
@@ -36,6 +38,82 @@ export default function PriceQuote({
 }) {
   const [selectedCargoType, setSelectedCargoType] = useState(null);
   const [selectedWeightUnit, setSelectedWeightUnit] = useState(null);
+  const [routePoints, setRoutePoints] = useState({
+    departure: "",
+    destination: "",
+  });
+  const [distanceInfo, setDistanceInfo] = useState({
+    loading: false,
+    valueInKm: null,
+    error: "",
+  });
+
+  const goongApiKey = import.meta.env.VITE_GOONG_API_KEY;
+
+  useEffect(() => {
+    const departure = routePoints.departure?.trim();
+    const destination = routePoints.destination?.trim();
+
+    if (!departure || !destination) {
+      setDistanceInfo({
+        loading: false,
+        valueInKm: null,
+        error: "",
+      });
+      return;
+    }
+
+    if (!goongApiKey) {
+      setDistanceInfo({
+        loading: false,
+        valueInKm: null,
+        error: "Thiếu cấu hình API key để tính khoảng cách",
+      });
+      return;
+    }
+
+    let isUnmounted = false;
+    const timeoutId = setTimeout(async () => {
+      setDistanceInfo((prev) => ({
+        ...prev,
+        loading: true,
+        error: "",
+      }));
+
+      try {
+        const finalDistance = await calculateDistanceInKmFromAddresses({
+          departure,
+          destination,
+          apiKey: goongApiKey,
+        });
+
+        if (isUnmounted) {
+          return;
+        }
+
+        setDistanceInfo({
+          loading: false,
+          valueInKm: Number(finalDistance.toFixed(1)),
+          error: "",
+        });
+      } catch (error) {
+        if (isUnmounted) {
+          return;
+        }
+
+        setDistanceInfo({
+          loading: false,
+          valueInKm: null,
+          error: "Không thể tính khoảng cách. Vui lòng kiểm tra lại địa chỉ.",
+        });
+      }
+    }, 600);
+
+    return () => {
+      isUnmounted = true;
+      clearTimeout(timeoutId);
+    };
+  }, [routePoints.departure, routePoints.destination, goongApiKey]);
 
   const duongBo = () => {
     return (
@@ -59,29 +137,46 @@ export default function PriceQuote({
         <div className="filter-item-row">
           <div className="filter-item">
             <Form.Item name="departure">
-              <Cselect
+              <CAddressAutocomplete
                 label="Điểm đi"
-                options={[
-                  { value: "1", label: "Dịch vụ 1" },
-                  { value: "2", label: "Dịch vụ 2" },
-                  { value: "3", label: "Dịch vụ 3" },
-                ]}
+                value={routePoints.departure}
+                onChange={(value) =>
+                  setRoutePoints((prev) => ({
+                    ...prev,
+                    departure: value,
+                  }))
+                }
+                prefix={<RiMapPin2Line />}
               />
             </Form.Item>
           </div>
           <div className="filter-item">
             <Form.Item name="destination">
-              <Cselect
+              <CAddressAutocomplete
                 label="Điểm đến"
-                options={[
-                  { value: "1", label: "Dịch vụ 1" },
-                  { value: "2", label: "Dịch vụ 2" },
-                  { value: "3", label: "Dịch vụ 3" },
-                ]}
+                value={routePoints.destination}
+                onChange={(value) =>
+                  setRoutePoints((prev) => ({
+                    ...prev,
+                    destination: value,
+                  }))
+                }
+                prefix={<RiMapPin2Line />}
               />
             </Form.Item>
           </div>
         </div>
+        {(distanceInfo.loading ||
+          distanceInfo.valueInKm !== null ||
+          distanceInfo.error) && (
+          <div className="distance-hint" role="status" aria-live="polite">
+            {distanceInfo.loading && "Đang tính khoảng cách..."}
+            {!distanceInfo.loading &&
+              distanceInfo.valueInKm !== null &&
+              `Khoảng cách ước tính: ${distanceInfo.valueInKm} km`}
+            {!distanceInfo.loading && distanceInfo.error}
+          </div>
+        )}
         <div className="filter-item">
           <Form.Item name="container">
             <Cselect
@@ -188,7 +283,7 @@ export default function PriceQuote({
                         return Promise.resolve();
                       }
                       return Promise.reject(
-                        new Error("Ngày vào không thể lớn hơn ngày ra")
+                        new Error("Ngày vào không thể lớn hơn ngày ra"),
                       );
                     },
                   }),

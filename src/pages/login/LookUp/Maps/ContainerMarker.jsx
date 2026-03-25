@@ -1,18 +1,38 @@
-import { useState, useEffect, useRef } from 'react';
-import { OverlayView, Polyline } from '@react-google-maps/api';
-import { Image, Button } from 'antd';
-import { CloseOutlined } from '@ant-design/icons';
-import PropTypes from 'prop-types';
+import { useState, useEffect, useRef } from "react";
+import { OverlayView, Polyline } from "@react-google-maps/api";
+import { Image, Button } from "antd";
+import { CloseOutlined } from "@ant-design/icons";
+import PropTypes from "prop-types";
 import xe from "../../../../assets/image/xe.png";
-import './index.scss';
+import "./index.scss";
 
-const ContainerMarker = ({ routeCoords, carPosition, carAngle, percent, mapRef }) => {
+const ContainerMarker = ({
+  routeCoords,
+  carPosition,
+  carAngle,
+  percent,
+  mapRef,
+  vehicleInfo,
+}) => {
   const [openModal, setOpenModal] = useState(false);
   const [currentPercent, setCurrentPercent] = useState(0);
   const modalRef = useRef(null);
 
+  const markerInfo = {
+    bienSo: vehicleInfo?.bienSo || "N/A",
+    loaiXe: vehicleInfo?.loaiXe || "Xe tai",
+    taiXe: vehicleInfo?.taiXe || "N/A",
+    routeFrom: vehicleInfo?.routeFrom || "Diem A",
+    routeTo: vehicleInfo?.routeTo || "Diem B",
+    distanceExpected: vehicleInfo?.distanceExpected || "0 km",
+    currentSpeed: vehicleInfo?.currentSpeed || "0 km/h",
+    eta: vehicleInfo?.eta || "N/A",
+    onlineStatus: vehicleInfo?.onlineStatus || "Offline",
+    movingStatus: vehicleInfo?.movingStatus || "Dung",
+  };
+
   useEffect(() => {
-    if (percent) {
+    if (percent !== undefined) {
       setCurrentPercent(Math.round(percent));
     }
   }, [percent]);
@@ -38,8 +58,8 @@ const ContainerMarker = ({ routeCoords, carPosition, carAngle, percent, mapRef }
       <div className="info-popup" ref={modalRef}>
         <div className="header-title">
           <div className="title-wrapper">
-            <span>51-V3 051.72</span>
-            <span className="subtitle">Loại: Xe tải</span>
+            <span>{markerInfo.bienSo}</span>
+            <span className="subtitle">Loai: {markerInfo.loaiXe}</span>
           </div>
           <Button
             type="text"
@@ -51,7 +71,7 @@ const ContainerMarker = ({ routeCoords, carPosition, carAngle, percent, mapRef }
 
         <div className="progress-section">
           <div className="route-container">
-            <span className="location">Hải Phòng</span>
+            <span className="location">{markerInfo.routeFrom}</span>
             <div className="progress-container">
               <span className="progress-percent">{currentPercent}%</span>
               <div className="progress-bar">
@@ -59,7 +79,7 @@ const ContainerMarker = ({ routeCoords, carPosition, carAngle, percent, mapRef }
                   className="progress-fill"
                   style={{ width: `${currentPercent}%` }}
                 />
-                <div 
+                <div
                   className="truck-icon-wrapper"
                   style={{ left: `${currentPercent}%` }}
                 >
@@ -67,32 +87,32 @@ const ContainerMarker = ({ routeCoords, carPosition, carAngle, percent, mapRef }
                 </div>
               </div>
             </div>
-            <span className="location">Thái Bình</span>
+            <span className="location">{markerInfo.routeTo}</span>
           </div>
         </div>
 
         <div className="info-content">
           <div className="info-row">
-            <span className="label">Tài xế:</span>
-            <span className="value">Nguyễn Văn A</span>
+            <span className="label">Tai xe:</span>
+            <span className="value">{markerInfo.taiXe}</span>
           </div>
           <div className="info-row">
-            <span className="label">Quãng đường dự kiến:</span>
-            <span className="value">77.8 km</span>
+            <span className="label">Quang duong du kien:</span>
+            <span className="value">{markerInfo.distanceExpected}</span>
           </div>
           <div className="info-row">
-            <span className="label">Vận tốc hiện tại:</span>
-            <span className="value">53 km/h</span>
+            <span className="label">Van toc hien tai:</span>
+            <span className="value">{markerInfo.currentSpeed}</span>
           </div>
           <div className="info-row">
-            <span className="label">Thời gian giao hàng dự kiến:</span>
-            <span className="value">09/11/2024</span>
+            <span className="label">Thoi gian giao hang du kien:</span>
+            <span className="value">{markerInfo.eta}</span>
           </div>
         </div>
 
         <div className="status-bar">
-          <span className="status-badge">Online</span>
-          <span className="status-text">Đi chuyển</span>
+          <span className="status-badge">{markerInfo.onlineStatus}</span>
+          <span className="status-text">{markerInfo.movingStatus}</span>
         </div>
       </div>
     );
@@ -134,11 +154,7 @@ const ContainerMarker = ({ routeCoords, carPosition, carAngle, percent, mapRef }
                 height: "60px",
               }}
             >
-              <Image
-                src={xe}
-                alt="Xe đang di chuyển"
-                preview={false}
-              />
+              <Image src={xe} alt="Xe đang di chuyển" preview={false} />
             </div>
           </OverlayView>
 
@@ -161,7 +177,7 @@ ContainerMarker.propTypes = {
     PropTypes.shape({
       lat: PropTypes.number.isRequired,
       lng: PropTypes.number.isRequired,
-    })
+    }),
   ).isRequired,
   carPosition: PropTypes.shape({
     lat: PropTypes.number.isRequired,
@@ -170,6 +186,18 @@ ContainerMarker.propTypes = {
   carAngle: PropTypes.number.isRequired,
   percent: PropTypes.number.isRequired,
   mapRef: PropTypes.object,
+  vehicleInfo: PropTypes.shape({
+    bienSo: PropTypes.string,
+    loaiXe: PropTypes.string,
+    taiXe: PropTypes.string,
+    routeFrom: PropTypes.string,
+    routeTo: PropTypes.string,
+    distanceExpected: PropTypes.string,
+    currentSpeed: PropTypes.string,
+    eta: PropTypes.string,
+    onlineStatus: PropTypes.string,
+    movingStatus: PropTypes.string,
+  }),
 };
 
-export default ContainerMarker; 
+export default ContainerMarker;

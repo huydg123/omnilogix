@@ -62,6 +62,17 @@
     }
   }
 
+  .distance-hint {
+    width: 100%;
+    font-size: 13px;
+    color: #0d5b79;
+    background: rgba(13, 91, 121, 0.08);
+    border: 1px dashed rgba(13, 91, 121, 0.25);
+    border-radius: 6px;
+    padding: 8px 10px;
+    line-height: 1.4;
+  }
+
   .ant-form-item {
     margin-bottom: 0px;
   }

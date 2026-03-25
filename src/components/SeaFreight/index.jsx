@@ -242,7 +242,7 @@ export default function SeaFreight({ estimatedFee }) {
   // Xử lý khi click vào checkbox
   const toggleSelect = (key) => {
     setSelectedKeys((prev) =>
-      prev.includes(key) ? prev.filter((k) => k !== key) : [...prev, key]
+      prev.includes(key) ? prev.filter((k) => k !== key) : [...prev, key],
     );
   };
 
@@ -258,7 +258,7 @@ export default function SeaFreight({ estimatedFee }) {
 
   const calculateGroupTotal = (type) => {
     const servicesInGroup = dataSource.filter(
-      (item) => item.type === type && selectedKeys.includes(item.key)
+      (item) => item.type === type && selectedKeys.includes(item.key),
     );
     return servicesInGroup.reduce((sum, item) => {
       const servicePrice = priceConfig[item.service][unit].base;
@@ -308,7 +308,8 @@ export default function SeaFreight({ estimatedFee }) {
             <div className="group-header">
               <h3>{groupTitles[groupType]}</h3>
               <div className="group-total">
-                Tổng: {calculateGroupTotal(groupType).toLocaleString()} VND/{unit}
+                Tổng: {calculateGroupTotal(groupType).toLocaleString()} VND/
+                {unit}
               </div>
             </div>
             {services.map((item) => (
@@ -377,9 +378,7 @@ export default function SeaFreight({ estimatedFee }) {
           <FaMoneyBillWave size={18} />
         </div>
         <div className="text">Tổng tiền:</div>
-        <div className="amount">
-          {calculateTotal().toLocaleString()} VND
-        </div>
+        <div className="amount">{calculateTotal().toLocaleString()} VND</div>
       </div>
       {estimatedFee ? (
         <div
@@ -390,7 +389,8 @@ export default function SeaFreight({ estimatedFee }) {
             fontWeight: "bold",
           }}
         >
-          (Đã bao gồm phí bảo hiểm: {(estimatedFee * 26000).toLocaleString()} VND)
+          (Đã bao gồm phí bảo hiểm: {(estimatedFee * 26000).toLocaleString()}{" "}
+          VND)
         </div>
       ) : null}
     </div>

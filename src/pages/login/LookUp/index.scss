@@ -158,7 +158,7 @@
   }
 
   span {
-    color:$form-label;
+    color: $form-label;
     font-weight: 500;
     border-radius: 4px;
     font-size: 14px;
@@ -334,14 +334,18 @@
           left: 50%;
           transform: translateX(-50%);
           bottom: -(0.25em);
-          transition: width 0.2s ease-in, height 0.2s ease-in;
+          transition:
+            width 0.2s ease-in,
+            height 0.2s ease-in;
         }
       }
 
       &:hover .itemInfo:after {
         width: 0.25em * 10;
         height: 0.25em * 1;
-        transition: width 0.2s ease-in, height 0.2s ease-in;
+        transition:
+          width 0.2s ease-in,
+          height 0.2s ease-in;
       }
 
       .itemDate {
@@ -357,55 +361,40 @@
       }
     }
 
-    &:nth-child(3) .itemBar:last-child:after {
+    &.row-end .itemBar:after {
       content: "";
       position: absolute;
       width: 1.1em;
       height: 3.7249998em;
-      left: 100%;
       top: 0;
-      border-radius: 0 7em 7em 0;
       border: 0.25em solid #d9d9d9;
+    }
+
+    &.row-end.row-even .itemBar:after {
+      left: 100%;
+      border-radius: 0 7em 7em 0;
       border-left: unset;
     }
 
-    &:nth-child(3) .itemBar.done:last-child:after {
-      border-color: #52c41a;
-    }
-
-    &:nth-child(3) .itemBar.active:last-child:after {
-      border-color: #1890ff;
-    }
-
-    &:nth-child(3) .itemBar.pending:last-child:after {
-      border-color: #faad14;
-    }
-
-    &:nth-child(4) .itemBar:first-child:after {
-      content: "";
-      position: absolute;
-      width: 1.1em;
-      height: 3.7249998em;
+    &.row-end.row-odd .itemBar:after {
       right: 100%;
-      top: 0;
       border-radius: 7em 0 0 7em;
-      border: 0.25em solid #d9d9d9;
       border-right: unset;
     }
 
-    &:nth-child(4) .itemBar.done:first-child:after {
+    &.row-end .itemBar.done:after {
       border-color: #52c41a;
     }
 
-    &:nth-child(4) .itemBar.active:first-child:after {
+    &.row-end .itemBar.active:after {
       border-color: #1890ff;
     }
 
-    &:nth-child(4) .itemBar.pending:first-child:after {
+    &.row-end .itemBar.pending:after {
       border-color: #faad14;
     }
 
-    &:last-child .itemBar:after {
+    &.is-last-step .itemBar:after {
       display: none;
     }
   }
@@ -470,7 +459,7 @@
     }
 
     &::after {
-      content: '';
+      content: "";
       position: absolute;
       bottom: -4px;
       left: 50%;
@@ -488,4 +477,3 @@
   animation: dash 2s linear infinite;
   stroke-dasharray: 4, 4;
 }
-
